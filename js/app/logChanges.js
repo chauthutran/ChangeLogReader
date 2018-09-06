@@ -143,7 +143,7 @@ function LogChange_UI( _logChange_DM, _period_UI )
             var ouId = ouList[i].id;
             me.logChange_DM.loadLogChange(individual, ouId, startDate, endDate, peStartDate, peEndDate
                 , function ( data ) {
-                    me.tableDataValues.push( data.rows );
+                    me.tableDataValues.push( data.listGrid.rows );
                 } ,function( data )
                 {
                     me.ouIdx++;
@@ -453,7 +453,7 @@ function LogChange_DM()
 
     me._queryURL_User_Details = _queryURL_api + "users.json?filter=userCredentials.code:eq:" + me.PARAM_USERNAME + "&fields=name,email,organisationUnits[name],userCredentials[username]";
 
-    me._queryURL_View_Log_Change = _queryURL_api + "sqlViews/" + me.PARAM_SQL_VIEW_UID + "/data.json?var=entityUID:" + me.PARAM_OU_ID
+    me._queryURL_View_Log_Change = _queryURL_api + "sqlViews/" + me.PARAM_SQL_VIEW_UID + "/data.json?paging=false&var=entityUID:" + me.PARAM_OU_ID
     + "&var=startDate:" + me.PARAM_START_DATE
     + "&var=endDate:" + me.PARAM_END_DATE
     + "&var=peStartDate:" + me.PARAM_START_PERIOD_DATE

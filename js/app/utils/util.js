@@ -173,7 +173,7 @@ Util.getDateFromToday = function( numberOfDays )
 // "2015-09-23 15:05:54.461"
 Util.formatDate = function( dateTimeStr )
 {
-	var arrDateTime = dateTimeStr.split(" ");
+	var arrDateTime = dateTimeStr.split("T");
 	var attDate = arrDateTime[0].split("-");
 	var arrTime = arrDateTime[1].split(":");
 	var monthIdx = eval(attDate[1]) - 1;
