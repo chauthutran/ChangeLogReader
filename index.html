@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Change Log Reader</title>
+	<meta charset="UTF-8">
+
+	<script type="text/javascript" src="js/jQuery/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="js/jQuery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/jQuery/jquery.dateFormat-1.0.js"></script>
+	<script type="text/javascript" src="js/jQuery/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="js/jQuery/jquery.tablesorter.min.js"></script>
+
+
+	<script type="text/javascript" src="js/app/utils/util.js"></script>
+	<script type="text/javascript" src="js/app/utils/RESTUtil.js"></script>
+	<script type="text/javascript" src="js/app/utils/MsgManager.js"></script>
+	<script type="text/javascript" src="js/app/oust.js"></script>
+
+	<script type="text/javascript" src="js/app/HLOC.js"></script>
+	<script type="text/javascript" src="js/app/orgunit.js"></script>
+	<script type="text/javascript" src="js/app/period.js"></script>
+	<script type="text/javascript" src="js/app/logChanges.js"></script>
+
+	<link rel="stylesheet" href="css/jQuery/jquery-ui.css" />
+	<link rel="stylesheet" href="css/app/style.css">
+
+</head>
+
+<body>
+
+	<div id="header">
+		<img id="headerBanner" src="img/logo_banner.png" style="cursor:pointer" title="View home page">
+		<span id="headerText" style="cursor:pointer" title="View home page"></span>
+		<div id="headerRightSideControls">
+			<a href="https://docs.google.com/document/d/17OO7mT8fPJoBS1aPf5sXcsMOyC803j2yqYs3AdKo_p0/edit" target="_blank" style="color: White;">v 1.04</a>
+			| <button type="button" id="closeButton" onclick="window.location.href='../../../dhis-web-dashboard-integration/index.action'"><span nameId='closeButton'>Close</span></button>
+		</div>
+	</div>
+
+	<div id="headerMessage" class="bold"></div>
+
+
+	<div id="divMsgArea" style="display: none;">
+		<span id="spanMsgAreaClose"><img src="img/hide.png" title="Close" id="btnMsgAreaClose"></span>
+		<span id="spanMsgAreaText"></span>
+	</div>
+
+
+	<div class="page" id="mainPage">
+
+		<h2 class="pageTitle">Change Log Reader</h2>
+
+		<!-- <h3 class="pageTitle">Quality of Care</h3> -->
+
+		<fieldset>
+			<legend>Parameters</legend>
+
+			<table>
+				<tr>
+					<td>Period</td>
+					<td>
+						<select id="periodType" name="periodType"></select>
+					</td>
+					<td>Choose period</td>
+					<td id="periodListTD">
+						<select id="periodList" name="periodList" disabled>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Date from</td>
+					<td>
+						<input id="fromDate" name="fromDate" style="width:203px;"/>
+					</td>
+					<td>Date to</td>
+					<td>
+						<input id="toDate" name="toDate" style="width:203px;"/>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="4" style="padding-top:20px;">Organisation Unit Selection</td>
+				</tr>
+				<tr>
+					<td colspan="4" style="background-color: #F2F8FF;"><i>
+						<details>
+							<summary>Selected Orgunit List</summary>
+							<div colspan="2" id="selctedOuList" style="width:500px;height:30px;overflow-y:auto;">[empty]</div>
+						</details>
+					</i></td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<div id="orgUnitTreeContainer">
+							<div id="selectionTree"></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<input type="radio" id="grandParentSelection" name="ouSelection" checked> Grand parent selection
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="radio" id="individualSelection" name="ouSelection"> Individual selection
+					</td>
+				</tr>
+				<tr>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="4"><input type="button" id="runBtn" name="runBtn" value="Run" class="steelBlueButton" style="width:100px;"/></td>
+				</tr>
+			</table>
+		</fieldset>
+
+		<div id='loaderDiv' style='display:none;'>
+			<br><br>
+			<table>
+				<tr>
+					<td>
+						<div id='progressInfo' style="font-size: 13px; font-style:italic; color:#191970; width:100%;"></div>
+					</td>
+					<td>
+						<img src='img/loading.gif'>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div id="logChangesDiv" style="margin-top: 20px;display:none;">
+
+			<i><p class="noteInfo" id="searchResult"></p></i>
+
+			<table class="listTable" id="logChangesTable">
+				<thead>
+				<tr>
+					<th sorted="asc">Channel <img src="img/asc.gif"></th>
+					<th sorted="asc" style="width:40%;">DE/ Combo <img src="img/asc.gif"></th>
+					<th sorted="unsorted" style="width:80px;">Value <img src="img/unsorted.gif"></th>
+					<th sorted="unsorted">Status <img src="img/unsorted.gif"></th>
+					<th sorted="desc" style="width:120px;">Date <img src="img/desc.gif"></th>
+					<th sorted="unsorted">Who <img src="img/unsorted.gif"></th>
+				</tr>
+				</thead>
+				<tbody id="logChangesTB"></tbody>
+			</table>
+		</div>
+
+
+	</div>
+
+
+</body>
+
+</html>
