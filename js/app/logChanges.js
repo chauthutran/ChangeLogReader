@@ -143,7 +143,7 @@ function LogChange_UI( _logChange_DM, _period_UI )
             var ouId = ouList[i].id;
             me.logChange_DM.loadLogChange(individual, ouId, startDate, endDate, peStartDate, peEndDate
                 , function ( data ) {
-                    me.tableDataValues.push( data.rows );
+                    me.tableDataValues.push( data.listGrid.rows );
                 } ,function( data )
                 {
                     me.ouIdx++;
@@ -275,9 +275,6 @@ function LogChange_UI( _logChange_DM, _period_UI )
                 var idx = me.logChangesTB.find("tr").length;
                 var bgColor = ( idx % 2 == 0 ) ? "" : "#f9f9f9";
 
-                if( de.name=='NEW-Spermicides - Consultation (Unknown Gender, 25 +)'){
-                    var fsadfas= 'fasdfas';
-                }
                 var rowTag = $("<tr></tr>");
 
                 if( ouName!= "" ){
@@ -291,7 +288,11 @@ function LogChange_UI( _logChange_DM, _period_UI )
                 }
 
                 var value = data[j].value;
-                if( data[j].deTypeInt ) {
+                if( value == null )
+                {
+                    value = "";
+                }
+                else if( data[j].deTypeInt ) {
                     value = me.formatValue( value );
                 }
                 rowTag.append("<td align='right' style='background-color: " + bgColor + "'>" + value + "</td>");
@@ -389,9 +390,10 @@ function LogChange_UI( _logChange_DM, _period_UI )
                 status = Util.capitalize(status) + "d";
             }
 
+            var value = ( cell[2] == "null" ? "" : cell[2] );
             var deTypeInt = ( cell[6]=='int' );
             var data = {
-                "value": cell[2],
+                "value": value,
                 "status": status,
                 "created": cell[4],
                 "who": cell[5],
@@ -453,7 +455,7 @@ function LogChange_DM()
 
     me._queryURL_User_Details = _queryURL_api + "users.json?filter=userCredentials.code:eq:" + me.PARAM_USERNAME + "&fields=name,email,organisationUnits[name],userCredentials[username]";
 
-    me._queryURL_View_Log_Change = _queryURL_api + "sqlViews/" + me.PARAM_SQL_VIEW_UID + "/data.json?var=entityUID:" + me.PARAM_OU_ID
+    me._queryURL_View_Log_Change = _queryURL_api + "sqlViews/" + me.PARAM_SQL_VIEW_UID + "/data.json?paging=false&var=entityUID:" + me.PARAM_OU_ID
     + "&var=startDate:" + me.PARAM_START_DATE
     + "&var=endDate:" + me.PARAM_END_DATE
     + "&var=peStartDate:" + me.PARAM_START_PERIOD_DATE
@@ -463,8 +465,8 @@ function LogChange_DM()
     {
         var sqlViewUID = ( individual )?  me.PARAM_GRAND_PARENT_OU_SQL_VIEW_UID : me.PARAM_INDIVIDUAL_OU_SQL_VIEW_UID;
         var url = me._queryURL_View_Log_Change.replace( me.PARAM_OU_ID, ouId );
-        url = url.replace( me.PARAM_START_DATE, startDate + ' 000000');
-        url = url.replace( me.PARAM_END_DATE, endDate + ' 235959' );
+        url = url.replace( me.PARAM_START_DATE, startDate);
+        url = url.replace( me.PARAM_END_DATE, endDate );
         url = url.replace( me.PARAM_START_PERIOD_DATE, peStartDate );
         url = url.replace( me.PARAM_END_PERIOD_DATE, peEndDate );
         url = url.replace( me.PARAM_SQL_VIEW_UID, sqlViewUID );

@@ -32,11 +32,14 @@ function HLOC()
     me.fromDateTag = Util.byId( 'fromDate' );
     me.toDateTag = Util.byId( 'toDate' );
 
+    me.closeButtonTag = $("[name='closeButton']");
+            
 
     // Main 'Run' button action.
 
     me.initialSetup = function()
     {
+        new Header();
         me.initializeObjects();
         datePickerInRange( "fromDate", "toDate", Util.getDateFromToday(1) , Util.getCurrentDate() );
 
@@ -56,6 +59,10 @@ function HLOC()
 
     me.setup_Event = function()
     {
+        me.closeButtonTag.click( function(){
+            window.location.href = _appURL;
+        });
+        
         me.runBtnTag.click(function(){
             var ouList = me.orgunit_UI.selected;
 

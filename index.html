@@ -13,6 +13,7 @@
 
 	<script type="text/javascript" src="js/app/utils/util.js"></script>
 	<script type="text/javascript" src="js/app/utils/RESTUtil.js"></script>
+	<script src="js/app/header.js"></script>
 	<script type="text/javascript" src="js/app/utils/MsgManager.js"></script>
 	<script type="text/javascript" src="js/app/oust.js"></script>
 
@@ -27,13 +28,13 @@
 </head>
 
 <body>
-
+		
 	<div id="header">
-		<img id="headerBanner" src="img/logo_banner.png" style="cursor:pointer" title="View home page">
-		<span id="headerText" style="cursor:pointer" title="View home page"></span>
-		<div id="headerRightSideControls">
-			<a href="https://docs.google.com/document/d/17OO7mT8fPJoBS1aPf5sXcsMOyC803j2yqYs3AdKo_p0/edit" target="_blank" style="color: White;">v 1.04</a>
-			| <button type="button" id="closeButton" onclick="window.location.href='../../../dhis-web-dashboard-integration/index.action'"><span nameId='closeButton'>Close</span></button>
+		<img id="headerBanner" src="img/logo_banner.png" name='closeButton' style="cursor:pointer" title="View home page">
+		<span id="headerText" name="closeButton" style="cursor:pointer" title="View home page">Change Log Reader</span>
+		<div id="headerRightSideControls">			
+				<a href="https://docs.google.com/document/d/17OO7mT8fPJoBS1aPf5sXcsMOyC803j2yqYs3AdKo_p0/" target="_blank" style="color: White;font-size:12px;">v 1.08</a>
+				| <button type="button" name='closeButton' class='btn btn-primary btn-xs'><span>Close</span></button>
 		</div>
 	</div>
 
