@@ -1,15 +1,47 @@
 // Indvidual
-select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv.value as value, 'Current data' as status, dv.lastupdated as created, storedby as who , de.valuetype 
-
-from datavalue dv INNER JOIN period pe on dv.periodid=pe.periodid INNER JOIN organisationunit ou on dv.sourceid=ou.organisationunitid inner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join datavalueaudit dvaudit on ( dv.periodid=dvaudit.periodid and dv.sourceid=dvaudit.organisationunitid and dv.categoryoptioncomboid=dvaudit.categoryoptioncomboid and dv.dataelementid=dvaudit.dataelementid and dv.attributeoptioncomboid=dvaudit.attributeoptioncomboid ) inner join periodtype petype on petype.periodtypeid = pe.periodtypeid 
-
-
-where dv.created>='${startDate}' and dv.created <='${endDate}' 
-and pe.startdate='${peStartDate}' and pe.enddate<='${peEndDate}' 
-and ou.uid = '${entityUID}' and dvaudit.created>='${startDate}' and dvaudit.created <='${endDate}' 
-
-UNION select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv."value" as value, audittype as status, dv.created as created, modifiedby as who , de.valuetype from datavalueaudit dv INNER JOIN period pe on dv.periodid=pe.periodid INNER JOIN organisationunit ou on dv.organisationunitid=ou.organisationunitid inner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created <='${endDate}' and ou.uid = '${entityUID}' and pe.startdate='${peStartDate}' and pe.enddate<='${peEndDate}' ORDER BY ouname, deCat, status, created , who
+select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv."value" as value, 'Current data' as status, dv.lastupdated as created, storedby as who , de.valuetype 
+from datavalue dv 
+INNER JOIN period pe on dv.periodid=pe.periodid 
+INNER JOIN organisationunit ou on dv.sourceid=ou.organisationunitid 
+inner join dataelement de on de.dataelementid=dv.dataelementid 
+inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid 
+INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid 
+inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' and ou.uid = '${entityUID}' and dv.created>='${startDate}' and dv.created<='${endDate}' 
 
 
-// NEW
-select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv."value" as value, 'Current value' as status, dv.lastupdated as created, storedby as who , de.valuetype from datavalue dv INNER JOIN period pe on dv.periodid=pe.periodid INNER JOIN organisationunit ou on dv.sourceid=ou.organisationunitid inner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join datavalueaudit dvaudit on ( dv.periodid=dvaudit.periodid and dv.sourceid=dvaudit.organisationunitid and dv.categoryoptioncomboid=dvaudit.categoryoptioncomboid and dv.dataelementid=dvaudit.dataelementid and dv.attributeoptioncomboid=dvaudit.attributeoptioncomboid ) inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' and ou.parentid in ( select organisationunitid from organisationunit where parentid in ( select organisationunitid from organisationunit where uid = '${entityUID}' ) ) and dvaudit.created>='${startDate}' and dvaudit.created<='${endDate}' UNION select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv."value" as value, audittype as status, dv.created as created, modifiedby as who , de.valuetype from datavalueaudit dv INNER JOIN period pe on dv.periodid=pe.periodid INNER JOIN organisationunit ou on dv.organisationunitid=ou.organisationunitid inner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and ou.parentid in ( select organisationunitid from organisationunit where parentid in ( select organisationunitid from organisationunit where uid = '${entityUID}' ) ) and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' ORDER BY ouname, deCat, created desc, status
+
+UNION select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv."value" as value, audittype as status, dv.created as created, modifiedby as who , de.valuetype 
+from datavalueaudit dv INNER JOIN period pe on dv.periodid=pe.periodid INNER JOIN organisationunit ou on dv.organisationunitid=ou.organisationunitid inner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and ou.uid = '${entityUID}' and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' ORDER BY ouname, deCat, status, created , who
+
+// ---------------------------------------------------------------------------------------------------
+// Grand Children
+// ---------------------------------------------------------------------------------------------------
+
+
+select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv."value" as value, 'Current value' as status, dv.lastupdated as created, storedby as who , de.valuetype 
+
+from datavalue dv INNER JOIN period pe on dv.periodid=pe.periodid 
+INNER JOIN organisationunit ou on dv.sourceid=ou.organisationunitid 
+inner join dataelement de on de.dataelementid=dv.dataelementid 
+inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid 
+INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid 
+
+inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' and ou.parentid in ( select organisationunitid from organisationunit where parentid in ( select organisationunitid from organisationunit 
+
+where uid = '${entityUID}' ) ) and dv.created>='${startDate}' and dv.created<='${endDate}' 
+
+
+
+UNION select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv."value" as value, audittype as status, dv.created as created, modifiedby as who , de.valuetype 
+
+from datavalueaudit dv 
+INNER JOIN period pe on dv.periodid=pe.periodid 
+INNER JOIN organisationunit ou on dv.organisationunitid=ou.organisationunitid 
+inner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid 
+INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and ou.parentid in ( select organisationunitid from organisationunit where parentid in ( select organisationunitid from organisationunit 
+
+where uid = '${entityUID}' ) ) and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' 
+
+ORDER BY ouname, deCat, created desc, status
+
+

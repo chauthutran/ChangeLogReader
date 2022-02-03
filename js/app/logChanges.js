@@ -153,7 +153,11 @@ function LogChange_UI( _logChange_DM, _period_UI )
                             var rows = me.tableDataValues[i];
                             for( var j=0; j<rows.length; j++ )
                             {
-                                me.tableData.push( rows[j] );
+                                const value = rows[j][2];
+                                if( value != null )
+                                {
+                                    me.tableData.push( rows[j] );
+                                }
                             }
                         }
 

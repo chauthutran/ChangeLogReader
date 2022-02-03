@@ -1,0 +1,124 @@
+{
+	"system": {
+		"id": "f0f02721.us-east-1.ippf-whr.bao.systems",
+		"rev": "483a1a7",
+		"version": "2.33.7",
+		"date": "2021-01-19T01:04:14.822"
+	},
+	
+	"sqlViews" :[
+
+        {
+            "lastUpdated": "2022-02-03T14:11:50.755",
+            "href": "https://dev.data.fosfeminista.org/api/sqlViews/wwniq1qIkM0",
+            "id": "wwniq1qIkM0",
+            "created": "2015-08-14T08:08:13.926",
+            "name": "Data Entry Log Report ( NEW )",
+            "displayName": "Data Entry Log Report ( NEW )",
+            "publicAccess": "r-r-----",
+            "type": "QUERY",
+            "externalAccess": false,
+            "sqlQuery": "select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv.\"value\" as value, 'Current value' as status, dv.lastupdated as created, storedby as who , de.valuetype \n\nfrom datavalue dv INNER JOIN period pe on dv.periodid=pe.periodid \nINNER JOIN organisationunit ou on dv.sourceid=ou.organisationunitid \ninner join dataelement de on de.dataelementid=dv.dataelementid \ninner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid \nINNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid \n\ninner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' and ou.parentid in ( select organisationunitid from organisationunit where parentid in ( select organisationunitid from organisationunit \n\nwhere uid = '${entityUID}' ) ) and dv.created>='${startDate}' and dv.created<='${endDate}' \n\n\n\nUNION select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv.\"value\" as value, audittype as status, dv.created as created, modifiedby as who , de.valuetype \n\nfrom datavalueaudit dv \nINNER JOIN period pe on dv.periodid=pe.periodid \nINNER JOIN organisationunit ou on dv.organisationunitid=ou.organisationunitid \ninner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid \nINNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and ou.parentid in ( select organisationunitid from organisationunit where parentid in ( select organisationunitid from organisationunit \n\nwhere uid = '${entityUID}' ) ) and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' \n\nORDER BY ouname, deCat, created desc, status\n",
+            "sharing": {
+            "owner": "Z53M949egPe",
+            "external": false,
+            "users": {},
+            "userGroups": {},
+            "public": "r-r-----"
+            },
+            "cacheStrategy": "RESPECT_SYSTEM_SETTING",
+            "favorite": false,
+            "access": {
+            "read": true,
+            "update": true,
+            "externalize": true,
+            "delete": true,
+            "write": true,
+            "manage": true,
+            "data": {
+            "read": true,
+            "write": true
+            }
+            },
+            "lastUpdatedBy": {
+            "displayName": "Tran Chau",
+            "name": "Tran Chau",
+            "id": "Z53M949egPe",
+            "username": "tranc"
+            },
+            "createdBy": {
+            "displayName": "Tran Chau",
+            "name": "Tran Chau",
+            "id": "Z53M949egPe",
+            "username": "tranc"
+            },
+            "user": {
+            "displayName": "Tran Chau",
+            "name": "Tran Chau",
+            "id": "Z53M949egPe",
+            "username": "tranc"
+            },
+            "favorites": [],
+            "translations": [],
+            "userGroupAccesses": [],
+            "attributeValues": [],
+            "userAccesses": []
+            },
+            {
+                "lastUpdated": "2022-02-03T14:32:12.202",
+                "href": "https://dev.data.fosfeminista.org/api/sqlViews/gSk0W8fkuMg",
+                "id": "gSk0W8fkuMg",
+                "created": "2015-08-19T23:29:30.902",
+                "name": "Data Entry Log Report ( Individual )",
+                "displayName": "Data Entry Log Report ( Individual )",
+                "publicAccess": "r-r-----",
+                "type": "QUERY",
+                "externalAccess": false,
+                "sqlQuery": "select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv.\"value\" as value, 'Current data' as status, dv.lastupdated as created, storedby as who , de.valuetype \nfrom datavalue dv \nINNER JOIN period pe on dv.periodid=pe.periodid \nINNER JOIN organisationunit ou on dv.sourceid=ou.organisationunitid \ninner join dataelement de on de.dataelementid=dv.dataelementid \ninner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid \nINNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid \ninner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' and ou.uid = '${entityUID}' and dv.created>='${startDate}' and dv.created<='${endDate}' \n\n\n\nUNION select ou.name as ouname, de.name || ' ' || catname.categoryoptioncomboname as deCat, dv.\"value\" as value, audittype as status, dv.created as created, modifiedby as who , de.valuetype \nfrom datavalueaudit dv INNER JOIN period pe on dv.periodid=pe.periodid INNER JOIN organisationunit ou on dv.organisationunitid=ou.organisationunitid inner join dataelement de on de.dataelementid=dv.dataelementid inner join categorycombos_optioncombos catopt on dv.categoryoptioncomboid=catopt.categoryoptioncomboid INNER JOIN _categoryoptioncomboname catname on catname.categoryoptioncomboid=catopt.categoryoptioncomboid inner join periodtype petype on petype.periodtypeid = pe.periodtypeid where dv.created>='${startDate}' and dv.created<='${endDate}' and ou.uid = '${entityUID}' and pe.startdate='${peStartDate}' and pe.enddate='${peEndDate}' ORDER BY ouname, deCat, status, created , who",
+                "sharing": {
+                "owner": "Z53M949egPe",
+                "external": false,
+                "users": {},
+                "userGroups": {},
+                "public": "r-r-----"
+                },
+                "cacheStrategy": "RESPECT_SYSTEM_SETTING",
+                "favorite": false,
+                "access": {
+                "read": true,
+                "update": true,
+                "externalize": true,
+                "delete": true,
+                "write": true,
+                "manage": true,
+                "data": {
+                "read": true,
+                "write": true
+                }
+                },
+                "lastUpdatedBy": {
+                "displayName": "Tran Chau",
+                "name": "Tran Chau",
+                "id": "Z53M949egPe",
+                "username": "tranc"
+                },
+                "createdBy": {
+                "displayName": "Tran Chau",
+                "name": "Tran Chau",
+                "id": "Z53M949egPe",
+                "username": "tranc"
+                },
+                "user": {
+                "displayName": "Tran Chau",
+                "name": "Tran Chau",
+                "id": "Z53M949egPe",
+                "username": "tranc"
+                },
+                "favorites": [],
+                "translations": [],
+                "userGroupAccesses": [],
+                "attributeValues": [],
+                "userAccesses": []
+                }
+    ]
+}
